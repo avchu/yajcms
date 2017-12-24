@@ -1,0 +1,26 @@
+version: '2.0'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    links:
+      - db:db
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - ./mongodb:/data/db
+    ports:
+      - 27017:27017

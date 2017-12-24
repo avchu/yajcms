@@ -1,4 +1,4 @@
-package org.yajcms.controller.core;
+package org.yajcms.db.entities;
 
 import lombok.Data;
 

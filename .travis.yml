@@ -1,7 +1,5 @@
 language: java
 jdk:
   - oraclejdk9
-script:
-  - mvn test jacoco:report
 after_success:
   - mvn coveralls:report

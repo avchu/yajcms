@@ -2,4 +2,4 @@ language: java
 jdk:
   - oraclejdk9
 after_success:
-  - mvn coveralls:report
+  - mvn clean cobertura:cobertura coveralls:report

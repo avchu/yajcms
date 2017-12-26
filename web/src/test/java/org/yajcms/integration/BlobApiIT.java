@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.yajcms.db.entities.BlobEntity;
 import org.yajcms.controller.core.blobs.PostgresBlobStorageApi;
+import org.yajcms.db.entities.BlobEntity;
 
 import static org.junit.Assert.assertNotEquals;
 

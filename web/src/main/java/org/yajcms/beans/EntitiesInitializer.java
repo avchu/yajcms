@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 @Component
@@ -32,7 +33,7 @@ public class EntitiesInitializer {
                     .map(API.unchecked(Resource::getFilename)).forEach(f -> log.debug("{}", f));
             resources.forEach(x -> {
                 try {
-                    initEntities(x.getFile());
+                    initEntities(x.getFilename(), x.getInputStream());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -42,10 +43,10 @@ public class EntitiesInitializer {
         }
     }
 
-    public void initEntities(File json) {
+    public void initEntities(String filename, InputStream json) {
         try {
-            entitiesProto.put(json.getName().replace(".json", ""),
-                    new JSONObject(IOUtils.toString(json.toURI(), Charset.forName("utf-8"))));
+            entitiesProto.put(filename.replace(".json", ""),
+                    new JSONObject(IOUtils.toString(json, Charset.forName("utf-8"))));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

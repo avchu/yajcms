@@ -25,22 +25,19 @@ public class EntitiesInitializer {
     HashMap<String, JSONObject> entitiesProto = HashMap.empty();
 
     @PostConstruct
-    public void init() {
+    public void init() throws IOException {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        try {
-            resources = List.of(resolver.getResources("/entities/**/*.json"));
-            List.ofAll(resources)
-                    .map(API.unchecked(Resource::getFilename)).forEach(f -> log.debug("{}", f));
-            resources.forEach(x -> {
-                try {
-                    initEntities(x.getFilename(), x.getInputStream());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        resources = List.of(resolver.getResources("/entities/**/*.json"));
+        List.ofAll(resources)
+                .map(API.unchecked(Resource::getFilename)).forEach(f -> log.debug("{}", f));
+        resources.forEach(x -> {
+            try {
+                initEntities(x.getFilename(), x.getInputStream());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        entitiesProto.keySet().forEach(key -> {});
     }
 
     public void initEntities(String filename, InputStream json) {

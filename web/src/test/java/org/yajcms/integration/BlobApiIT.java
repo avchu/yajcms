@@ -14,7 +14,9 @@ import org.yajcms.db.entities.BlobEntity;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -38,6 +40,26 @@ public class BlobApiIT {
         assertNotEquals(put.getOid(), null);
         BlobEntity blobEntity = postgresBlobStorageApi.get(res.getFilename());
         assertNotEquals(0, blobEntity.getSource().length);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void checkNotFundException() {
+        postgresBlobStorageApi.get("lolololololol");
+    }
+
+    @Test
+    public void deleteFalse() {
+        assertFalse(postgresBlobStorageApi.delete("ololololo"));
+    }
+
+    @Test
+    public void deleteTrue() {
+        try {
+            postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+            assertTrue(postgresBlobStorageApi.delete(res.getFilename()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

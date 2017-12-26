@@ -25,13 +25,12 @@ public class PostgresBlobStorageApi implements BlobStorageApi {
 
     @Override
     public Boolean delete(String path) {
-        try {
-            blobRepository.delete(blobRepository.getByHash(DigestUtils.md5Hex(path)));
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        BlobEntity byHash = blobRepository.getByHash(DigestUtils.md5Hex(path));
+        if (byHash == null) {
             return false;
         }
+        blobRepository.delete(byHash);
+        return true;
     }
 
     @Override

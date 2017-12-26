@@ -1,3 +1,13 @@
+services:
+  - mongodb
+  - postgresql
+
+before_script:
+  - psql -c 'create database yajcms;' -U postgres
+  - psql -c 'create user yajcms with password "yajcms";' -u postgres
+  - psql -c 'grant all privileges on database yajcms to yajcms;' -U postgres
+  - psql -c 'create table blob_entity (oid bigint CONSTRAINT firstkey PRIMARY KEY, path varchar(255) NOT NULL, hash  varchar(255)  NULL, content_hash varchar(255)  NULL, source BYTEA);' -U postgres
+
 language: java
 jdk:
   - oraclejdk8

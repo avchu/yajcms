@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.yajcms.controller.core.blobs.PostgresBlobStorageApi;
 import org.yajcms.db.entities.BlobEntity;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertNotEquals;
 
 @RunWith(SpringRunner.class)
@@ -27,15 +29,15 @@ public class BlobApiIT {
 
     @Test
     public void checkCache() {
+        BlobEntity put = null;
         try {
-            BlobEntity put = postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
-            assertNotEquals(put.getOid(), null);
-            BlobEntity blobEntity = postgresBlobStorageApi.get(res.getFilename());
-            assertNotEquals(0, blobEntity.getSource().length);
-
-        } catch (Exception e) {
+            put = postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        assertNotEquals(put.getOid(), null);
+        BlobEntity blobEntity = postgresBlobStorageApi.get(res.getFilename());
+        assertNotEquals(0, blobEntity.getSource().length);
     }
 
 }

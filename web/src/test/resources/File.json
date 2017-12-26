@@ -1,0 +1,12 @@
+{
+  "entity": {
+    "name": "Файл",
+    "fields": [
+      {
+        "id": "id",
+        "name": "Имя",
+        "type": "Long"
+      }
+    ]
+  }
+}

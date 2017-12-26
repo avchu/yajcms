@@ -15,10 +15,10 @@ public class PostgresBlobStorageApi implements BlobStorageApi {
     BlobRepository blobRepository;
 
     @Override
-    public BlobEntity get(String path) throws Exception {
+    public BlobEntity get(String path) {
         BlobEntity byHash = blobRepository.getByHash(DigestUtils.md5Hex(path));
         if (byHash == null) {
-            throw new Exception();
+            throw new RuntimeException();
         }
         return byHash;
     }

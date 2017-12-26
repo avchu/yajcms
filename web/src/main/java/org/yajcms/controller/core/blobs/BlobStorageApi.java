@@ -3,7 +3,7 @@ package org.yajcms.controller.core.blobs;
 import org.yajcms.db.entities.BlobEntity;
 
 public interface BlobStorageApi {
-    BlobEntity get(String path) throws Exception;
+    BlobEntity get(String path);
 
     Boolean delete(String path);
 

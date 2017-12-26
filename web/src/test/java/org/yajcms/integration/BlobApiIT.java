@@ -31,6 +31,7 @@ public class BlobApiIT {
 
     @Test
     public void checkCache() {
+
         BlobEntity put = null;
         try {
             put = postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
@@ -40,6 +41,8 @@ public class BlobApiIT {
         assertNotEquals(put.getOid(), null);
         BlobEntity blobEntity = postgresBlobStorageApi.get(res.getFilename());
         assertNotEquals(0, blobEntity.getSource().length);
+
+        postgresBlobStorageApi.delete(res.getFilename());
     }
 
     @Test(expected = RuntimeException.class)
@@ -53,13 +56,9 @@ public class BlobApiIT {
     }
 
     @Test
-    public void deleteTrue() {
-        try {
-            postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
-            assertTrue(postgresBlobStorageApi.delete(res.getFilename()));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    public void deleteTrue() throws Exception {
+        postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+        assertTrue(postgresBlobStorageApi.delete(res.getFilename()));
     }
 
 }

@@ -1,4 +1,4 @@
-package org.yajcms.controller.core;
+package org.yajcms.core;
 
 import org.springframework.stereotype.Component;
 

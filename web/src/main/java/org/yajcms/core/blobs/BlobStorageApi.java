@@ -1,9 +1,9 @@
-package org.yajcms.controller.core.blobs;
+package org.yajcms.core.blobs;
 
 import org.yajcms.db.entities.BlobEntity;
 
 public interface BlobStorageApi {
-    BlobEntity get(String path) throws Exception;
+    BlobEntity get(String path);
 
     Boolean delete(String path);
 

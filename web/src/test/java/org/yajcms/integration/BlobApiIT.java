@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.yajcms.core.blobs.PostgresBlobStorageApi;
 import org.yajcms.db.entities.BlobEntity;
-import org.yajcms.controller.core.blobs.PostgresBlobStorageApi;
 
+import java.io.IOException;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,15 +31,34 @@ public class BlobApiIT {
 
     @Test
     public void checkCache() {
-        try {
-            BlobEntity put = postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
-            assertNotEquals(put.getOid(), null);
-            BlobEntity blobEntity = postgresBlobStorageApi.get(res.getFilename());
-            assertNotEquals(0, blobEntity.getSource().length);
 
-        } catch (Exception e) {
+        BlobEntity put = null;
+        try {
+            put = postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        assertNotEquals(put.getOid(), null);
+        BlobEntity blobEntity = postgresBlobStorageApi.get(res.getFilename());
+        assertNotEquals(0, blobEntity.getSource().length);
+
+        postgresBlobStorageApi.delete(res.getFilename());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void checkNotFundException() {
+        postgresBlobStorageApi.get("lolololololol");
+    }
+
+    @Test
+    public void deleteFalse() {
+        assertFalse(postgresBlobStorageApi.delete("ololololo"));
+    }
+
+    @Test
+    public void deleteTrue() throws Exception {
+        postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+        assertTrue(postgresBlobStorageApi.delete(res.getFilename()));
     }
 
 }

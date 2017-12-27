@@ -1,5 +1,16 @@
+services:
+  - mongodb
+  - postgresql
+
+before_script:
+  - psql -c 'create database yajcms;' -U postgres
+  - psql -c 'create user yajcms;' -U postgres
+  - psql -c 'create table blob_entity (oid bigint CONSTRAINT firstkey PRIMARY KEY, path varchar(255) NOT NULL, hash  varchar(255)  NULL, content_hash varchar(255)  NULL, source BYTEA);' -U postgres -d yajcms
+  - psql -c 'grant all on database yajcms to yajcms;' -U postgres -d yajcms
+  - psql -c 'grant all on table blob_entity to yajcms;' -U postgres -d yajcms
+
 language: java
 jdk:
   - oraclejdk8
 after_success:
-  - mvn clean test jacoco:report coveralls:report
+  - mvn clean test integration-test jacoco:report coveralls:report

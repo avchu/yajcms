@@ -1,4 +1,4 @@
-package org.yajcms.controller.core;
+package org.yajcms.beans;
 
 import com.google.common.base.Ticker;
 import com.google.common.cache.CacheBuilder;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Component;
+import org.yajcms.core.Entity;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -21,10 +22,18 @@ public class EntityCache {
 
     MongoOperations mongoOperations;
 
+    EntitiesInitializer entitiesInitializer;
+
     @Autowired
     public void setMongoOperations(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
     }
+
+    @Autowired
+    public void setEntitiesInitializer(EntitiesInitializer entitiesInitializer) {
+        this.entitiesInitializer = entitiesInitializer;
+    }
+
 
     @Value("${ogr.yajcms.core.cache.expiration:60}")
     public void setCacheExpirationInSeconds(Integer cacheExpirationInSeconds) {
@@ -61,6 +70,7 @@ public class EntityCache {
                                 return super.reload(key, oldValue);
                             }
                         });
+
     }
 
     public List<Entity> getAll(String key) {

@@ -1,4 +1,4 @@
-package org.yajcms.controller.core.blobs;
+package org.yajcms.core.blobs;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +15,22 @@ public class PostgresBlobStorageApi implements BlobStorageApi {
     BlobRepository blobRepository;
 
     @Override
-    public BlobEntity get(String path) throws Exception {
+    public BlobEntity get(String path) {
         BlobEntity byHash = blobRepository.getByHash(DigestUtils.md5Hex(path));
         if (byHash == null) {
-            throw new Exception();
+            throw new RuntimeException();
         }
         return byHash;
     }
 
     @Override
     public Boolean delete(String path) {
-        try {
-            blobRepository.delete(blobRepository.getByHash(DigestUtils.md5Hex(path)));
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        BlobEntity byHash = blobRepository.getByHash(DigestUtils.md5Hex(path));
+        if (byHash == null) {
             return false;
         }
+        blobRepository.delete(byHash);
+        return true;
     }
 
     @Override

@@ -13,8 +13,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Component
 public class EntitiesStorage {
 
-    @Autowired
+
     MongoOperations mongoOperations;
+
+    @Autowired
+    public void setMongoOperations(MongoOperations mongoOperations) {
+        this.mongoOperations = mongoOperations;
+    }
 
     public Entity storeEntity(Entity entity) {
         entity.setId(Optional.of(entity.getId().orElse(new Date().getTime())));

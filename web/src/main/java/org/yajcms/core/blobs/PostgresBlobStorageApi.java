@@ -11,8 +11,12 @@ import java.util.UUID;
 @Component
 public class PostgresBlobStorageApi implements BlobStorageApi {
 
-    @Autowired
     BlobRepository blobRepository;
+
+    @Autowired
+    public void setBlobRepository(BlobRepository blobRepository) {
+        this.blobRepository = blobRepository;
+    }
 
     @Override
     public BlobEntity get(String path) {

@@ -37,15 +37,12 @@ public class EntitiesInitializer {
                 ex.printStackTrace();
             }
         });
-        entitiesProto.keySet().forEach(key -> {});
+        entitiesProto.keySet().forEach(key -> {
+        });
     }
 
-    public void initEntities(String filename, InputStream json) {
-        try {
-            entitiesProto.put(filename.replace(".json", ""),
-                    new JSONObject(IOUtils.toString(json, Charset.forName("utf-8"))));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    public void initEntities(String filename, InputStream json) throws IOException {
+        entitiesProto.put(filename.replace(".json", ""),
+                new JSONObject(IOUtils.toString(json, Charset.forName("utf-8"))));
     }
 }

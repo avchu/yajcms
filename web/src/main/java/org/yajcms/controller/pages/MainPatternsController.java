@@ -12,8 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class MainPatternsController {
 
-    @Autowired
     PageController pageController;
+
+    @Autowired
+    public void setPageController(PageController pageController) {
+        this.pageController = pageController;
+    }
 
     @RequestMapping(value = "/**")
     @ResponseBody

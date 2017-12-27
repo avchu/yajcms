@@ -35,6 +35,9 @@ public class BlobApiIT {
         BlobEntity put = null;
         try {
             put = postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+            assertFalse(put.getContentHash() == null);
+            assertFalse(put.getPath() == null);
+            assertFalse(put.getHash() == null);
         } catch (IOException e) {
             e.printStackTrace();
         }

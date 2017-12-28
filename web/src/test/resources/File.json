@@ -1,11 +1,22 @@
 {
+  "cache": true,
   "entity": {
     "name": "Файл",
     "fields": [
       {
-        "id": "id",
+        "id": "name",
         "name": "Имя",
-        "type": "Long"
+        "type": "String"
+      },
+      {
+        "id": "blobKey",
+        "name": "blobKey",
+        "type": "refKeyList"
+      },
+      {
+        "id": "listProperty",
+        "name": "Какой-то список",
+        "type": "list"
       }
     ]
   }

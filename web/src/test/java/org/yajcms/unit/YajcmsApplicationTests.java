@@ -35,7 +35,7 @@ public class YajcmsApplicationTests {
     @Test
     public void checkCache() {
         FakeTicker fakeTicker = new FakeTicker();
-        entityCache.setMongoOperations(mongoOperations);
+        //entityCache.(mongoOperations);
         entityCache.setCacheExpirationInSeconds(60);
         entityCache.setTicker(fakeTicker);
         entityCache.initCache();

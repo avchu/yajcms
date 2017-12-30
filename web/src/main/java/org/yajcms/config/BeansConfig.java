@@ -12,17 +12,17 @@ import org.yajcms.core.blobs.PostgresBlobStorageApi;
 @Configuration
 public class BeansConfig {
     @Bean
-    EntitiesStorage entitiesStorage() {
+    protected EntitiesStorage entitiesStorage() {
         return new EntitiesStorageMongoDBImpl();
     }
 
     @Bean
-    EntityIdGenerator entityIdGenerator() {
+    protected EntityIdGenerator entityIdGenerator() {
         return new SimpleIdGenerator();
     }
 
     @Bean
-    BlobStorageApi blobStorageApi() {
+    protected BlobStorageApi blobStorageApi() {
         return new PostgresBlobStorageApi();
     }
 }

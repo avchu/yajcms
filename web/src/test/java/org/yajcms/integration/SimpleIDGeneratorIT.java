@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class SimpleIDGeneratorIT {
 
     @Autowired
-    EntityIdGenerator entityIdGenerator;
+    private EntityIdGenerator entityIdGenerator;
 
     @Test
     public void testIdGenerator() {

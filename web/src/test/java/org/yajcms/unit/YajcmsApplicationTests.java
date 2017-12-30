@@ -28,15 +28,15 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class YajcmsApplicationTests {
 
-    EntityCache entityCache = new EntityCache();
+    private EntityCache entityCache = new EntityCache();
 
     @Mock
-    EntitiesStorage entitiesStorage;
+    private EntitiesStorage entitiesStorage;
 
     @Mock
-    EntitiesInitializer entitiesInitializer;
+    private EntitiesInitializer entitiesInitializer;
 
-    Entity entity;
+    private Entity entity;
 
     @Before
     public void setUp() {

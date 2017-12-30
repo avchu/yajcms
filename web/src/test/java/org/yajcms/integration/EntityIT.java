@@ -32,7 +32,7 @@ public class EntityIT {
     @Autowired
     EntityCache entityCache;
 
-    Entity toPut;
+    private Entity toPut;
 
     @Before
     public void setUp() {

@@ -1,14 +1,14 @@
 package org.yajcms.core.blobs;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.yajcms.db.entities.BlobEntity;
 import org.yajcms.db.repos.BlobRepository;
 
 import java.util.UUID;
 
-@Component
+@Slf4j
 public class PostgresBlobStorageApi implements BlobStorageApi {
 
     BlobRepository blobRepository;
@@ -31,8 +31,10 @@ public class PostgresBlobStorageApi implements BlobStorageApi {
     public Boolean delete(String path) {
         BlobEntity byHash = blobRepository.getByHash(DigestUtils.md5Hex(path));
         if (byHash == null) {
+            log.debug("blob not found: {}", path);
             return false;
         }
+        log.debug("blob deleting: {}", byHash.toString());
         blobRepository.delete(byHash);
         return true;
     }
@@ -45,6 +47,7 @@ public class PostgresBlobStorageApi implements BlobStorageApi {
         blobEntity.setContentHash(DigestUtils.md5Hex(source));
         blobEntity.setSource(source);
         blobEntity.setOid(UUID.randomUUID().getLeastSignificantBits());
+        log.debug("blob puts: {}", blobEntity.toString());
         blobRepository.save(blobEntity);
         return blobEntity;
     }

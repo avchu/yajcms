@@ -3,6 +3,8 @@ package org.yajcms.beans;
 import io.vavr.API;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -10,9 +12,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.yajcms.core.Entity;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -21,11 +23,20 @@ import java.nio.charset.Charset;
 @Slf4j
 public class EntitiesInitializer {
 
-    List<Resource> resources = List.empty();
-    HashMap<String, JSONObject> entitiesProto = HashMap.empty();
+    @Setter
+    private List<Resource> resources;
+    @Setter
+    private HashMap<String, JSONObject> entitiesProto;
+    @Setter
+    @Getter
+    private HashMap<String, Entity> entities;
 
     @PostConstruct
     public void init() throws IOException {
+        setEntitiesProto(HashMap.empty());
+        setEntities(HashMap.empty());
+        this.setResources(List.empty());
+
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         resources = List.of(resolver.getResources("/entities/**/*.json"));
         List.ofAll(resources)
@@ -37,12 +48,11 @@ public class EntitiesInitializer {
                 ex.printStackTrace();
             }
         });
-        entitiesProto.keySet().forEach(key -> {
-        });
+        entitiesProto.keySet().forEach(key -> entities = entities.put(key, new Entity(entitiesProto.get(key), key)));
     }
 
-    public void initEntities(String filename, InputStream json) throws IOException {
-        entitiesProto.put(filename.replace(".json", ""),
+    private void initEntities(String filename, InputStream json) throws IOException {
+        entitiesProto = entitiesProto.put(filename.replace(".json", ""),
                 new JSONObject(IOUtils.toString(json, Charset.forName("utf-8"))));
     }
 }

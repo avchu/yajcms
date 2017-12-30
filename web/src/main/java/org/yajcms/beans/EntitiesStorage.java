@@ -1,32 +1,18 @@
 package org.yajcms.beans;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.stereotype.Component;
 import org.yajcms.core.Entity;
 
-import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+public interface EntitiesStorage {
+    Entity storeEntity(Entity entity);
 
-@Component
-public class EntitiesStorage {
+    String tableName(Entity tableName);
 
+    List<Entity> getAllByKey(String key);
 
-    MongoOperations mongoOperations;
+    void delete(Entity entity);
 
-    @Autowired
-    public void setMongoOperations(MongoOperations mongoOperations) {
-        this.mongoOperations = mongoOperations;
-    }
-
-    public Entity storeEntity(Entity entity) {
-        entity.setId(Optional.of(entity.getId().orElse(new Date().getTime())));
-        checkNotNull(entity.getName());
-        mongoOperations.save(entity,
-                entity.getDomain().orElse("").replace(".", "_") + "_" + entity.getName());
-        return entity;
-    }
-
+    Optional<Entity> getByKey(String key, Object id);
 }

@@ -38,6 +38,7 @@
         <gs.version>2.8.2</gs.version>
         <json.version>20171018</json.version>
         <io.version>2.6</io.version>
+        <jta.version>1.1</jta.version>
     </properties>
 
     <dependencies>
@@ -54,6 +55,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>com.vaadin.external.google</artifactId>
+                    <groupId>android-json</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -145,6 +152,17 @@
             <artifactId>commons-io</artifactId>
             <version>${io.version}</version>
         </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>${jta.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -215,6 +233,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
     </repositories>
 
     <pluginRepositories>

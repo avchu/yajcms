@@ -5,14 +5,15 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ListenableFuture;
+import io.vavr.collection.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Component;
 import org.yajcms.core.Entity;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -20,13 +21,13 @@ public class EntityCache {
 
     Integer cacheExpirationInSeconds;
 
-    MongoOperations mongoOperations;
+    EntitiesStorage entitiesStorage;
 
     EntitiesInitializer entitiesInitializer;
 
     @Autowired
-    public void setMongoOperations(MongoOperations mongoOperations) {
-        this.mongoOperations = mongoOperations;
+    public void setEntitiesStorage(EntitiesStorage entitiesStorage) {
+        this.entitiesStorage = entitiesStorage;
     }
 
     @Autowired
@@ -44,6 +45,7 @@ public class EntityCache {
 
     /**
      * Override for tests
+     *
      * @param ticker
      */
     public void setTicker(Ticker ticker) {
@@ -62,7 +64,7 @@ public class EntityCache {
                         new CacheLoader<String, List<Entity>>() {
                             @Override
                             public List<Entity> load(String key) {
-                                return mongoOperations.findAll(Entity.class, key);
+                                return entitiesStorage.getAllByKey(key);
                             }
 
                             @Override
@@ -70,7 +72,9 @@ public class EntityCache {
                                 return super.reload(key, oldValue);
                             }
                         });
-
+        Optional.ofNullable(entitiesInitializer.getEntities()).orElse(HashMap.empty()).values().forEach(e -> {
+            if (e.getCache()) loadingCache.getUnchecked(e.getKey());
+        });
     }
 
     public List<Entity> getAll(String key) {

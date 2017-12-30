@@ -5,6 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ListenableFuture;
+import io.vavr.collection.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import org.yajcms.core.Entity;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -70,7 +72,7 @@ public class EntityCache {
                                 return super.reload(key, oldValue);
                             }
                         });
-        entitiesInitializer.getEntities().values().forEach(e -> {
+        Optional.ofNullable(entitiesInitializer.getEntities()).orElse(HashMap.empty()).values().forEach(e -> {
             if (e.getCache()) loadingCache.getUnchecked(e.getKey());
         });
     }

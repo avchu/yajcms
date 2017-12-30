@@ -35,7 +35,7 @@ public class EntityIT {
     Entity toPut;
 
     @Before
-    public void setup() {
+    public void setUp() {
         toPut = new Entity("File");
         toPut.putProperty("str", "lo");
         toPut.putProperty("long", 2L);

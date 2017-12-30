@@ -14,9 +14,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class EntitiesStorageMongoDBImpl implements EntitiesStorage {
 
-    MongoOperations mongoOperations;
+    private MongoOperations mongoOperations;
 
-    EntityIdGenerator entityIdGenerator;
+    private EntityIdGenerator entityIdGenerator;
 
     @Autowired
     public void setEntityIdGenerator(EntityIdGenerator entityIdGenerator) {

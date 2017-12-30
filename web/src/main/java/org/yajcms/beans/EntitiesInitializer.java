@@ -24,12 +24,12 @@ import java.nio.charset.Charset;
 public class EntitiesInitializer {
 
     @Setter
-    List<Resource> resources;
+    private List<Resource> resources;
     @Setter
-    HashMap<String, JSONObject> entitiesProto;
+    private HashMap<String, JSONObject> entitiesProto;
     @Setter
     @Getter
-    HashMap<String, Entity> entities;
+    private HashMap<String, Entity> entities;
 
     @PostConstruct
     public void init() throws IOException {

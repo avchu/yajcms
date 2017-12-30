@@ -9,11 +9,11 @@ import java.util.Optional;
 @Data
 public class Entity extends EntitiesBase {
 
-    Boolean cache;
-    String name;
-    String key;
-    Optional<String> domain;
-    Optional<Object> id;
+    private Boolean cache;
+    private String name;
+    private String key;
+    private Optional<String> domain;
+    private Optional<Object> id;
 
     /**
      * Converter vavr to java8

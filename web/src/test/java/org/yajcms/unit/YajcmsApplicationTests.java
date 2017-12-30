@@ -39,7 +39,7 @@ public class YajcmsApplicationTests {
     Entity entity;
 
     @Before
-    public void setup() {
+    public void setUp() {
         entity = new Entity("Test");
     }
 

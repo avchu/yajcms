@@ -2,6 +2,7 @@ package org.yajcms.unit;
 
 import com.google.common.testing.FakeTicker;
 import io.vavr.collection.List;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -34,8 +35,11 @@ public class YajcmsApplicationTests {
     @Mock
     EntitiesInitializer entitiesInitializer;
 
-    @Test
-    public void contextLoads() {
+    Entity entity;
+
+    @Before
+    public void setup() {
+        entity = new Entity("Test");
     }
 
     @Test
@@ -66,78 +70,66 @@ public class YajcmsApplicationTests {
 
     @Test
     public void testGetBoolean() {
-        Entity entity = new Entity("Test");
         entity.putProperty("boolean", false);
         assertFalse(entity.getPropertyBoolean("boolean"));
     }
 
     @Test
     public void testGetBooleanNoValue() {
-        Entity entity = new Entity("Test");
         assertFalse(entity.getPropertyBoolean("boolean"));
     }
 
     @Test
     public void testGetBooleanWithOptional() {
-        Entity entity = new Entity("Test");
         assertTrue(entity.getPropertyBoolean("boolean", Optional.of(true)));
     }
 
     @Test
     public void testGetLong() {
-        Entity entity = new Entity("Test");
         entity.putProperty("long", 1L);
         assertEquals(Long.valueOf(1L), entity.getPropertyLong("long"));
     }
 
     @Test
     public void testGetLongNoValue() {
-        Entity entity = new Entity("Test");
         assertEquals(Long.valueOf(Long.MIN_VALUE), entity.getPropertyLong("long"));
     }
 
     @Test
     public void testGetLongWithOptional() {
-        Entity entity = new Entity("Test");
         assertEquals(Long.valueOf(100L), entity.getPropertyLong("long", Optional.of(100L)));
     }
 
 
     @Test
     public void testGetString() {
-        Entity entity = new Entity("Test");
         entity.putProperty("string", "lolo");
         assertEquals("lolo", entity.getPropertyString("string"));
     }
 
     @Test
     public void testGetStringNoValue() {
-        Entity entity = new Entity("Test");
         assertTrue(entity.getPropertyString("string").isEmpty());
     }
 
     @Test
     public void testGetStringWithOptional() {
-        Entity entity = new Entity("Test");
         assertTrue(entity.getPropertyString("string", Optional.of("lolo")).equals("lolo"));
     }
 
     @Test
     public void testGetList() {
-        Entity entity = new Entity("Test");
         entity.putProperty("list", List.of(1L));
         assertEquals(1L, entity.getPropertyList("list").last());
     }
 
     @Test
     public void testGetListNoValue() {
-        Entity entity = new Entity("Test");
         assertTrue(entity.getPropertyList("List").isEmpty());
     }
 
     @Test
     public void testGetListWithOptional() {
-        Entity entity = new Entity("Test");
         assertEquals(Long.valueOf(3L), entity.getPropertyList("list", Optional.of(List.of(3L))).last());
     }
 

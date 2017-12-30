@@ -14,6 +14,7 @@ import org.yajcms.beans.EntityCache;
 import org.yajcms.core.Entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
@@ -36,18 +37,22 @@ public class EntityIT {
     @Before
     public void setup() {
         toPut = new Entity("File");
-        toPut.setCache(false);
-        toPut.setKey("File");
         toPut.putProperty("str", "lo");
         toPut.putProperty("long", 2L);
         toPut.putProperty("boolean", true);
         toPut.putProperty("list", List.of(3L, 4L));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void checkNullInKey() {
         Entity e = new Entity("File");
-        entitiesStorage.storeEntity(e);
+        assertTrue(e.getKey().equals("File"));
+    }
+
+    @Test
+    public void checkCacheFalse() {
+        Entity e = new Entity("File");
+        assertFalse(e.getCache());
     }
 
     @Test

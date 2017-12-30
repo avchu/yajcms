@@ -17,6 +17,7 @@ public class Entity extends EntitiesBase {
 
     /**
      * Converter vavr to java8
+     *
      * @param jsonObjects
      * @param keyName
      */
@@ -27,8 +28,10 @@ public class Entity extends EntitiesBase {
     public Entity(Optional<JSONObject> jsonObjects, String keyName) {
         domain = Optional.empty();
         id = Optional.empty();
-        cache = jsonObjects.get().getBoolean("cache");
-        name = jsonObjects.get().getJSONObject("entity").getString("name");
+        cache = jsonObjects.orElse(new JSONObject().put("cache", false)).getBoolean("cache");
+        name = jsonObjects.orElse(
+                new JSONObject().put("entity", new JSONObject().put("name", keyName))
+        ).getJSONObject("entity").getString("name");
         key = keyName;
     }
 

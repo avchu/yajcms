@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.yajcms.core.blobs.BlobStorageApi;
 import org.yajcms.core.blobs.PostgresBlobStorageApi;
 import org.yajcms.db.entities.BlobEntity;
 
@@ -24,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 public class BlobApiIT {
 
     @Autowired
-    PostgresBlobStorageApi postgresBlobStorageApi;
+    BlobStorageApi blobStorageApi;
 
     @Value("classpath:0603c92a523346d3b3f9febd2f46f520.png")
     Resource res;
@@ -34,34 +35,34 @@ public class BlobApiIT {
 
         BlobEntity put = null;
         try {
-            put = postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+            put = blobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
             assertFalse(put.getContentHash() == null);
             assertFalse(put.getPath() == null);
             assertFalse(put.getHash() == null);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         assertNotEquals(put.getOid(), null);
-        BlobEntity blobEntity = postgresBlobStorageApi.get(res.getFilename());
+        BlobEntity blobEntity = blobStorageApi.get(res.getFilename());
         assertNotEquals(0, blobEntity.getSource().length);
 
-        postgresBlobStorageApi.delete(res.getFilename());
+        blobStorageApi.delete(res.getFilename());
     }
 
     @Test(expected = RuntimeException.class)
     public void checkNotFundException() {
-        postgresBlobStorageApi.get("lolololololol");
+        blobStorageApi.get("lolololololol");
     }
 
     @Test
     public void deleteFalse() {
-        assertFalse(postgresBlobStorageApi.delete("ololololo"));
+        assertFalse(blobStorageApi.delete("ololololo"));
     }
 
     @Test
     public void deleteTrue() throws Exception {
-        postgresBlobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
-        assertTrue(postgresBlobStorageApi.delete(res.getFilename()));
+        blobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+        assertTrue(blobStorageApi.delete(res.getFilename()));
     }
 
 }

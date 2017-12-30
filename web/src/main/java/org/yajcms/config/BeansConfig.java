@@ -6,6 +6,8 @@ import org.yajcms.beans.EntitiesStorage;
 import org.yajcms.beans.EntitiesStorageMongoDBImpl;
 import org.yajcms.beans.EntityIdGenerator;
 import org.yajcms.beans.SimpleIdGenerator;
+import org.yajcms.core.blobs.BlobStorageApi;
+import org.yajcms.core.blobs.PostgresBlobStorageApi;
 
 @Configuration
 public class BeansConfig {
@@ -17,5 +19,10 @@ public class BeansConfig {
     @Bean
     EntityIdGenerator entityIdGenerator() {
         return new SimpleIdGenerator();
+    }
+
+    @Bean
+    BlobStorageApi blobStorageApi() {
+        return new PostgresBlobStorageApi();
     }
 }

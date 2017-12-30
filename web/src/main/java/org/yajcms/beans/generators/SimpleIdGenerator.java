@@ -1,4 +1,4 @@
-package org.yajcms.beans;
+package org.yajcms.beans.generators;
 
 import java.util.Date;
 

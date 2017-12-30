@@ -7,13 +7,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.yajcms.beans.EntitiesInitializer;
 import org.yajcms.beans.EntitiesStorage;
 import org.yajcms.beans.EntityCache;
-import org.yajcms.config.BeansConfig;
 import org.yajcms.core.Entity;
 
 import static org.junit.Assert.assertEquals;
@@ -47,10 +44,14 @@ public class EntityIT {
         toPut.putProperty("list", List.of(3L, 4L));
     }
 
+    @Test(expected = NullPointerException.class)
+    public void checkNullInKey() {
+        Entity e = new Entity("File");
+        entitiesStorage.storeEntity(e);
+    }
+
     @Test
     public void storeEntity() {
-        System.out.println("!!!!!!!" + toPut);
-        System.out.println("!!!!!!!" + entitiesStorage);
         Entity e = entitiesStorage.storeEntity(toPut);
         assertTrue(e.getId().isPresent());
     }
@@ -64,7 +65,5 @@ public class EntityIT {
         assertEquals(entitiesStorage.getByKey("File", e.getId()).isPresent(), false);
     }
 
-    /**
-     * NPE test on Entity
-     */
+
 }

@@ -10,10 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.yajcms.core.blobs.BlobStorageApi;
-import org.yajcms.core.blobs.PostgresBlobStorageApi;
 import org.yajcms.db.entities.BlobEntity;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;

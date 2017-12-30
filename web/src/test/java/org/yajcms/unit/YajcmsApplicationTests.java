@@ -1,7 +1,6 @@
 package org.yajcms.unit;
 
 import com.google.common.testing.FakeTicker;
-import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;

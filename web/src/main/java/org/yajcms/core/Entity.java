@@ -12,16 +12,30 @@ public class Entity extends EntitiesBase {
     Boolean cache;
     String name;
     String key;
-    Optional<String> domain = Optional.empty();
-    Optional<Object> id = Optional.empty();
+    Optional<String> domain;
+    Optional<Object> id;
 
-    public Entity(String name) {
-        this.name = name;
+    /**
+     * Converter vavr to java8
+     * @param jsonObjects
+     * @param keyName
+     */
+    public Entity(Option<JSONObject> jsonObjects, String keyName) {
+        this(Optional.of(jsonObjects.getOrElse(new JSONObject())), keyName);
     }
 
-    public Entity(Option<JSONObject> jsonObjects, String keyName) {
+    public Entity(Optional<JSONObject> jsonObjects, String keyName) {
+        domain = Optional.empty();
+        id = Optional.empty();
         cache = jsonObjects.get().getBoolean("cache");
         name = jsonObjects.get().getJSONObject("entity").getString("name");
         key = keyName;
+    }
+
+    public Entity(String name) {
+        this(Optional.empty(), name);
+    }
+
+    public Entity() {
     }
 }

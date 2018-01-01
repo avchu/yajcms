@@ -2,19 +2,27 @@ package org.yajcms.core;
 
 
 import io.vavr.collection.List;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Optional;
 
 public abstract class EntitiesBase {
-    HashMap<String, Object> properties = new HashMap();
+    @Getter
+    @Setter
+    protected HashMap<String, YajCMSFiled> properties = new HashMap<>();
 
     public void putProperty(String key, Object property) {
-        properties.put(key, property);
+        if (!properties.containsKey(key)) {
+            throw new RuntimeException("No such field in entity: " + key);
+        }
+
+        properties.put(key, properties.get(key).toBuilder().value(property).build());
     }
 
     public Boolean getPropertyBoolean(String property, Optional<Boolean> defaultValue) {
-        return (Boolean) Optional.ofNullable(properties.get(property)).orElse(defaultValue.orElse(false));
+        return (Boolean) Optional.ofNullable(properties.get(property).getValue()).orElse(defaultValue.orElse(false));
     }
 
     public Boolean getPropertyBoolean(String property) {
@@ -22,7 +30,7 @@ public abstract class EntitiesBase {
     }
 
     public String getPropertyString(String property, Optional<String> defaultValue) {
-        return (String) Optional.ofNullable(properties.get(property)).orElse(defaultValue.orElse(""));
+        return (String) Optional.ofNullable(properties.get(property).getValue()).orElse(defaultValue.orElse(""));
     }
 
     public String getPropertyString(String property) {
@@ -30,7 +38,7 @@ public abstract class EntitiesBase {
     }
 
     public Long getPropertyLong(String property, Optional<Long> defaultValue) {
-        return (Long) Optional.ofNullable(properties.get(property)).orElse(defaultValue.orElse(Long.MIN_VALUE));
+        return (Long) Optional.ofNullable(properties.get(property).getValue()).orElse(defaultValue.orElse(Long.MIN_VALUE));
     }
 
     public Long getPropertyLong(String property) {
@@ -38,10 +46,11 @@ public abstract class EntitiesBase {
     }
 
     public List getPropertyList(String property, Optional<List> defaultValue) {
-        return (List) Optional.ofNullable(properties.get(property)).orElse(defaultValue.orElse(List.empty()));
+        return (List) Optional.ofNullable(properties.get(property).getValue()).orElse(defaultValue.orElse(List.empty()));
     }
 
     public List getPropertyList(String property) {
         return getPropertyList(property, Optional.empty());
     }
+
 }

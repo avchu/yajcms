@@ -11,7 +11,7 @@ import java.util.UUID;
 @Slf4j
 public class PostgresBlobStorageApi implements BlobStorageApi {
 
-    BlobRepository blobRepository;
+    private BlobRepository blobRepository;
 
     @Autowired
     public void setBlobRepository(BlobRepository blobRepository) {

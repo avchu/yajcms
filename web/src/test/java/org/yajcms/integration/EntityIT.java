@@ -2,6 +2,9 @@ package org.yajcms.integration;
 
 import io.vavr.collection.List;
 import lombok.extern.java.Log;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.yajcms.beans.EntitiesInitializer;
 import org.yajcms.beans.EntitiesStorage;
 import org.yajcms.beans.EntityCache;
+import org.yajcms.beans.pipeline.EntitiesDao;
 import org.yajcms.core.Entity;
+
+import java.nio.charset.Charset;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,7 +34,7 @@ public class EntityIT {
     EntitiesInitializer entitiesInitializer;
 
     @Autowired
-    EntitiesStorage entitiesStorage;
+    EntitiesDao entitiesDao;
 
     @Autowired
     EntityCache entityCache;
@@ -35,9 +42,11 @@ public class EntityIT {
     private Entity toPut;
 
     @Before
-    public void setUp() {
-        toPut = new Entity("File");
-        toPut.putProperty("str", "lo");
+    public void setUp() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String testJson = IOUtils.toString(classLoader.getResource("Test.json").openStream(), Charset.forName("utf-8"));
+        toPut = new Entity(Optional.of(new JSONObject(testJson)), "Test");
+        toPut.putProperty("string", "lo");
         toPut.putProperty("long", 2L);
         toPut.putProperty("boolean", true);
         toPut.putProperty("list", List.of(3L, 4L));
@@ -45,29 +54,29 @@ public class EntityIT {
 
     @Test
     public void checkNullInKey() {
-        Entity e = new Entity("File");
-        assertTrue(e.getKey().equals("File"));
+        Entity e = new Entity("Test");
+        assertTrue(e.getKey().equals("Test"));
     }
 
     @Test
     public void checkCacheFalse() {
-        Entity e = new Entity("File");
+        Entity e = new Entity("Test");
         assertFalse(e.getCache());
     }
 
     @Test
     public void storeEntity() {
-        Entity e = entitiesStorage.storeEntity(toPut);
+        Entity e = entitiesDao.storeEntity(toPut);
         assertTrue(e.getId().isPresent());
     }
 
     @Test
     public void testDelete() {
-        Entity e = entitiesStorage.storeEntity(toPut);
+        Entity e = entitiesDao.storeEntity(toPut);
         assertTrue(e.getId().isPresent());
-        entitiesStorage.delete(e);
+        entitiesDao.delete(e);
 
-        assertEquals(entitiesStorage.getByKey("File", e.getId()).isPresent(), false);
+        assertEquals(entitiesDao.getByKey("File", e.getId()).isPresent(), false);
     }
 
 

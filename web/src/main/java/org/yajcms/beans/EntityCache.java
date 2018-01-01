@@ -9,6 +9,7 @@ import io.vavr.collection.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.yajcms.beans.pipeline.EntitiesDao;
 import org.yajcms.core.Entity;
 
 import javax.annotation.PostConstruct;
@@ -19,15 +20,15 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class EntityCache {
 
-    Integer cacheExpirationInSeconds;
+    private Integer cacheExpirationInSeconds;
 
-    EntitiesStorage entitiesStorage;
+    private EntitiesDao entitiesDao;
 
-    EntitiesInitializer entitiesInitializer;
+    private EntitiesInitializer entitiesInitializer;
 
     @Autowired
-    public void setEntitiesStorage(EntitiesStorage entitiesStorage) {
-        this.entitiesStorage = entitiesStorage;
+    public void setEntitiesDao(EntitiesDao entitiesDao) {
+        this.entitiesDao = entitiesDao;
     }
 
     @Autowired
@@ -41,7 +42,7 @@ public class EntityCache {
         this.cacheExpirationInSeconds = cacheExpirationInSeconds;
     }
 
-    Ticker ticker = Ticker.systemTicker();
+    private Ticker ticker = Ticker.systemTicker();
 
     /**
      * Override for tests
@@ -52,7 +53,7 @@ public class EntityCache {
         this.ticker = ticker;
     }
 
-    LoadingCache<String, List<Entity>> loadingCache;
+    private LoadingCache<String, List<Entity>> loadingCache;
 
     @PostConstruct
     public void initCache() {
@@ -64,7 +65,7 @@ public class EntityCache {
                         new CacheLoader<String, List<Entity>>() {
                             @Override
                             public List<Entity> load(String key) {
-                                return entitiesStorage.getAllByKey(key);
+                                return entitiesDao.getAllByKey(key);
                             }
 
                             @Override

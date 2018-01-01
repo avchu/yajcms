@@ -26,7 +26,12 @@
       {
         "id": "hash",
         "name": "hash",
-        "type": "hash"
+        "type": "Long"
+      },
+      {
+        "id": "version",
+        "name": "version",
+        "type": "Long"
       }
     ]
   }

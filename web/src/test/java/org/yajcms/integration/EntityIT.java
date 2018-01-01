@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -50,6 +51,12 @@ public class EntityIT {
         toPut.putProperty("long", 2L);
         toPut.putProperty("boolean", true);
         toPut.putProperty("list", List.of(3L, 4L));
+    }
+
+    @Test
+    public void checkPrePutPostPutAnnotation() {
+        Entity e = entitiesDao.storeEntity(toPut);
+        assertEquals(e.getPropertyLong("version"), Long.valueOf(3));
     }
 
     @Test

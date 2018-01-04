@@ -3,7 +3,6 @@ package org.yajcms.integration;
 import io.vavr.collection.List;
 import lombok.extern.java.Log;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,11 +10,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.yajcms.beans.EntitiesInitializer;
-import org.yajcms.beans.EntitiesStorage;
-import org.yajcms.beans.EntityCache;
+import org.yajcms.beans.entities.nosql.EntitiesInitializer;
+import org.yajcms.beans.cache.EntityCache;
 import org.yajcms.beans.pipeline.EntitiesDao;
-import org.yajcms.core.Entity;
+import org.yajcms.beans.entities.Entity;
 
 import java.nio.charset.Charset;
 import java.util.Optional;
@@ -55,7 +53,7 @@ public class EntityIT {
 
     @Test
     public void checkPrePutPostPutAnnotation() {
-        Entity e = entitiesDao.storeEntity(toPut);
+        Entity e = entitiesDao.putEntity(toPut);
         assertEquals(e.getPropertyLong("version"), Long.valueOf(3));
     }
 
@@ -73,13 +71,13 @@ public class EntityIT {
 
     @Test
     public void storeEntity() {
-        Entity e = entitiesDao.storeEntity(toPut);
+        Entity e = entitiesDao.putEntity(toPut);
         assertTrue(e.getId().isPresent());
     }
 
     @Test
     public void testDelete() {
-        Entity e = entitiesDao.storeEntity(toPut);
+        Entity e = entitiesDao.putEntity(toPut);
         assertTrue(e.getId().isPresent());
         entitiesDao.delete(e);
 

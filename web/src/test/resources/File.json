@@ -17,6 +17,16 @@
         "id": "listProperty",
         "name": "Какой-то список",
         "type": "list"
+      },
+      {
+        "id": "publicUrl",
+        "name": "Public Url",
+        "type": "String"
+      },
+      {
+        "id": "blobId",
+        "name": "Blob",
+        "type": "Ref"
       }
     ]
   }

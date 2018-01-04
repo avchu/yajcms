@@ -1,7 +1,7 @@
 package org.yajcms.beans.callbacks;
 
 import org.springframework.stereotype.Component;
-import org.yajcms.core.Entity;
+import org.yajcms.beans.entities.Entity;
 
 @Component
 @YajCMSCallback("Test")

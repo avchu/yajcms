@@ -10,11 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.yajcms.beans.EntitiesInitializer;
-import org.yajcms.beans.EntityCache;
+import org.yajcms.beans.entities.nosql.EntitiesInitializer;
+import org.yajcms.beans.cache.EntityCache;
 import org.yajcms.beans.pipeline.EntitiesDao;
-import org.yajcms.core.Entity;
-import org.yajcms.core.YajCMSFiled;
+import org.yajcms.beans.entities.Entity;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;

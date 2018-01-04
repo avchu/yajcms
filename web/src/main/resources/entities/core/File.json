@@ -1,5 +1,4 @@
 {
-  "cache": true,
   "entity": {
     "name": "Файл",
     "fields": [
@@ -12,6 +11,21 @@
         "id": "version",
         "name": "Версия",
         "type": "Long"
+      },
+      {
+        "id": "publicUrl",
+        "name": "Public Url",
+        "type": "String"
+      },
+      {
+        "id": "blobId",
+        "name": "Blob",
+        "type": "Long"
+      },
+      {
+        "id": "filePath",
+        "name": "Path",
+        "type": "String"
       }
     ]
   }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.yajcms.core.blobs.BlobStorageApi;
+import org.yajcms.beans.entities.blobs.BlobStorageApi;
 import org.yajcms.db.entities.BlobEntity;
 
 import static org.junit.Assert.assertFalse;

@@ -1,4 +1,4 @@
-package org.yajcms.core;
+package org.yajcms.beans.entities;
 
 import io.vavr.control.Option;
 import lombok.AllArgsConstructor;
@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.yajcms.core.YajCMSFiled;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 @Data

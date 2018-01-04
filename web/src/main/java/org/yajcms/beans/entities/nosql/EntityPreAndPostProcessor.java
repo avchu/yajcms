@@ -1,6 +1,6 @@
-package org.yajcms.beans;
+package org.yajcms.beans.entities.nosql;
 
-import org.yajcms.core.Entity;
+import org.yajcms.beans.entities.Entity;
 
 public interface EntityPreAndPostProcessor {
 

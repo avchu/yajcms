@@ -1,4 +1,4 @@
-package org.yajcms.beans;
+package org.yajcms.beans.entities.nosql;
 
 import io.vavr.API;
 import io.vavr.collection.HashMap;
@@ -12,7 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
-import org.yajcms.core.Entity;
+import org.yajcms.beans.entities.Entity;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;

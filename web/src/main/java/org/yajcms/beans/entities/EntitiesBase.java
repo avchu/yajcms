@@ -1,16 +1,16 @@
-package org.yajcms.core;
+package org.yajcms.beans.entities;
 
 
 import io.vavr.collection.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.yajcms.core.YajCMSFiled;
 
 import java.util.HashMap;
 import java.util.Optional;
 
 public abstract class EntitiesBase {
     @Getter
-    @Setter
     protected HashMap<String, YajCMSFiled> properties = new HashMap<>();
 
     public void putProperty(String key, Object property) {

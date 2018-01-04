@@ -1,4 +1,4 @@
-package org.yajcms.beans;
+package org.yajcms.beans.entities.nosql;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
@@ -8,7 +8,7 @@ import org.yajcms.beans.callbacks.YajCMSCallback;
 import org.yajcms.beans.callbacks.YajCMSContextWork;
 import org.yajcms.beans.callbacks.YajCMSPostPut;
 import org.yajcms.beans.callbacks.YajCMSPrePut;
-import org.yajcms.core.Entity;
+import org.yajcms.beans.entities.Entity;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class BasicEntityPreAndPostProcessorImpl implements EntityPreAndPostProcessor {
 
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext) {

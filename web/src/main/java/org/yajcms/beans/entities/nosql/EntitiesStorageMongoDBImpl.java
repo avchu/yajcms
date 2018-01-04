@@ -18,7 +18,7 @@ public class EntitiesStorageMongoDBImpl implements EntitiesStorage {
 
     Integer defaultLimit;
 
-    @Value("org.yajcms.entities.query.limit:100")
+    @Value("${org.yajcms.entities.query.limit:100}")
     public void setDefaultLimit(Integer defaultLimit) {
         this.defaultLimit = defaultLimit;
     }
@@ -94,5 +94,10 @@ public class EntitiesStorageMongoDBImpl implements EntitiesStorage {
     public List<Entity> getByQuery(Object query, String key, Optional<Integer> limit) {
         Query q = ((Query) query).limit(limit.orElse(defaultLimit));
         return mongoOperations.find(q, Entity.class, tableName(Optional.empty(), key));
+    }
+
+    @Override
+    public List<Entity> getAllByKey(String key) {
+        return mongoOperations.findAll(Entity.class, tableName(Optional.empty(), key));
     }
 }

@@ -21,4 +21,6 @@ public interface EntitiesStorage {
     List<Entity> getByQuery(Object query, String key);
 
     List<Entity> getByQuery(Object query, String key, Optional<Integer> limit);
+
+    List<Entity> getAllByKey(String key);
 }

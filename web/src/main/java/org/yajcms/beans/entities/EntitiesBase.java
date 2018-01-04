@@ -10,7 +10,11 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public abstract class EntitiesBase {
+    /**
+     * Setter for tests
+     */
     @Getter
+    @Setter
     protected HashMap<String, YajCMSFiled> properties = new HashMap<>();
 
     public void putProperty(String key, Object property) {

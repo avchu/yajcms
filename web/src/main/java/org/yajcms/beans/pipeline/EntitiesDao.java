@@ -20,4 +20,5 @@ public interface EntitiesDao {
 
     List<Entity> getByQuery(Object query, String key, Optional<Integer> limit);
 
+    List<Entity> getAllByKey(String key);
 }

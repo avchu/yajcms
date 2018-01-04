@@ -1,9 +1,9 @@
 package org.yajcms.beans.pipeline;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.yajcms.beans.entities.Entity;
 import org.yajcms.beans.entities.nosql.EntitiesStorage;
 import org.yajcms.beans.entities.nosql.EntityPreAndPostProcessor;
-import org.yajcms.beans.entities.Entity;
 
 import java.util.List;
 import java.util.Optional;
@@ -64,5 +64,11 @@ public class BasicEntityDao implements EntitiesDao {
     public List<Entity> getByQuery(Object query, String key, Optional<Integer> limit) {
         List<Entity> byQuery = entitiesStorage.getByQuery(query, key, limit);
         return byQuery.stream().map(entity -> entityPreAndPostProcessor.postPut(entity)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Entity> getAllByKey(String key) {
+        List<Entity> allByKey = entitiesStorage.getAllByKey(key);
+        return allByKey.stream().map(entity -> entityPreAndPostProcessor.postPut(entity)).collect(Collectors.toList());
     }
 }

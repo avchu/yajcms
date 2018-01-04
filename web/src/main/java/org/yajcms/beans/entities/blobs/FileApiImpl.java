@@ -1,7 +1,5 @@
 package org.yajcms.beans.entities.blobs;
 
-import io.vavr.Tuple;
-import io.vavr.Tuple2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

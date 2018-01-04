@@ -1,4 +1,5 @@
 {
+  "cache": false,
   "entity": {
     "name": "Файл",
     "fields": [

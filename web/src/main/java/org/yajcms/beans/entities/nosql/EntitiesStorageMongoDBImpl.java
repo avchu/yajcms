@@ -48,7 +48,7 @@ public class EntitiesStorageMongoDBImpl implements EntitiesStorage {
 
     @Override
     public String tableName(Entity entity) {
-        return entity.getDomain().orElse("").replace(".", "_") + "_" + entity.getName();
+        return entity.getDomain().orElse("").replace(".", "_") + "_" + entity.getKey();
     }
 
     public String tableName(Optional<String> domain, String key) {

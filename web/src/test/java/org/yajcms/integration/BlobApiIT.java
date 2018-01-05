@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.yajcms.beans.entities.Entity;
 import org.yajcms.beans.entities.blobs.BlobStorageApi;
+import org.yajcms.beans.entities.blobs.FileApi;
+import org.yajcms.beans.entities.nosql.EntitiesInitializer;
 import org.yajcms.db.entities.BlobEntity;
 
 import static org.junit.Assert.assertFalse;
@@ -22,10 +25,36 @@ import static org.junit.Assert.assertTrue;
 public class BlobApiIT {
 
     @Autowired
-    BlobStorageApi blobStorageApi;
+    private BlobStorageApi blobStorageApi;
 
     @Value("classpath:0603c92a523346d3b3f9febd2f46f520.png")
-    Resource res;
+    private Resource res;
+
+    @Autowired
+    private FileApi fileApi;
+
+    @Autowired
+    private EntitiesInitializer entitiesInitializer;
+
+    @Test
+    public void testFileApi() {
+        boolean present = false;
+
+        Entity entity = entitiesInitializer.createEntity("File");
+        entity.putProperty("publicUrl", "0603c92a523346d3b3f9febd2f46f520.png");
+        try {
+            present = fileApi.put(entity, ByteStreams.toByteArray(res.getInputStream())).getId().isPresent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertTrue(present);
+        assertTrue(fileApi.get("0603c92a523346d3b3f9febd2f46f520.png").isPresent());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void noSuchEntity() {
+        entitiesInitializer.createEntity("File2");
+    }
 
     @Test
     public void checkCache() {

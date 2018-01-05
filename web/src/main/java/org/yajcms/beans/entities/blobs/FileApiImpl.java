@@ -14,11 +14,17 @@ import java.util.Optional;
 @Slf4j
 public class FileApiImpl implements FileApi {
 
-    private String publicUrl;
+    private String keyName;
 
-    @Value("${org.yajcms.blob.public.url:/_file/}")
-    public void setPublicUrl(String publicUrl) {
-        this.publicUrl = publicUrl;
+    public void setKeyName(String keyName) {
+        this.keyName = keyName;
+    }
+
+    private String filePathUrl;
+
+    @Value("${org.yajcms.blob.public.path.url:/_file/}")
+    public void setFilePathUrl(String filePathUrl) {
+        this.filePathUrl = filePathUrl;
     }
 
     private BlobStorageApi blobStorageApi;
@@ -45,7 +51,7 @@ public class FileApiImpl implements FileApi {
 
     @Override
     public Entity put(Entity entity, byte[] source) throws Exception {
-        BlobEntity blobFile = blobStorageApi.put(entity.getPropertyString("filePath"), source);
+        BlobEntity blobFile = blobStorageApi.put(entity.getPropertyString("publicUrl"), source);
         entity.putProperty("blobId", blobFile.getOid());
         entitiesDao.putEntity(entity);
         return entity;
@@ -54,12 +60,12 @@ public class FileApiImpl implements FileApi {
     @Override
     public Optional<BlobEntity> get(String publicUrl) {
         log.debug("Trying get by url {}", publicUrl);
-        Optional<Entity> oneByQuery = entitiesDao.getOneByQuery(new Query(Criteria.where("publicUrl").is(publicUrl)), "File");
+        Optional<Entity> oneByQuery = entitiesDao.getOneByQuery(String.format("publicUrl:%s", publicUrl), keyName);
         if (!oneByQuery.isPresent()) {
             log.debug("Entity not found");
             return Optional.empty();
         }
-        BlobEntity source = blobStorageApi.get(oneByQuery.get().getPropertyString("blobId"));
+        BlobEntity source = blobStorageApi.get(oneByQuery.get().getPropertyLong("blobId"));
         return Optional.of(source);
     }
 }

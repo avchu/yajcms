@@ -12,13 +12,13 @@ public interface EntitiesDao {
 
     Optional<Entity> getByKey(String key, Object id);
 
-    Long countByQuery(Object query, String key);
+    Long countByQuery(String query, String key);
 
-    Optional<Entity> getOneByQuery(Object query, String key);
+    Optional<Entity> getOneByQuery(String query, String key);
 
-    List<Entity> getByQuery(Object query, String key);
+    List<Entity> getByQuery(String query, String key);
 
-    List<Entity> getByQuery(Object query, String key, Optional<Integer> limit);
+    List<Entity> getByQuery(String query, String key, Optional<Integer> limit);
 
     List<Entity> getAllByKey(String key);
 }

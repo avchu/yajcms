@@ -55,4 +55,11 @@ public class EntitiesInitializer {
         entitiesProto = entitiesProto.put(filename.replace(".json", ""),
                 new JSONObject(IOUtils.toString(json, Charset.forName("utf-8"))));
     }
+
+    public Entity createEntity(String key) {
+        if(!entitiesProto.containsKey(key)) {
+            throw new RuntimeException("No such entity in classpath");
+        }
+        return new Entity(entitiesProto.get(key), key);
+    }
 }

@@ -84,5 +84,21 @@ public class EntityIT {
         assertEquals(entitiesDao.getByKey("File", e.getId()).isPresent(), false);
     }
 
+    @Test
+    public void countByQuery() {
+        entitiesDao.putEntity(toPut);
+        assertTrue(entitiesDao.countByQuery("string:lo", "Test") != 0L);
+    }
 
+    @Test
+    public void getOneByQuery() {
+        entitiesDao.putEntity(toPut);
+        assertNotEquals(entitiesDao.getOneByQuery("string:lo", "Test"), null);
+    }
+
+    @Test
+    public void getByQuery() {
+        entitiesDao.putEntity(toPut);
+        assertNotEquals(entitiesDao.getByQuery("string:lo", "Test").size(), 0);
+    }
 }

@@ -51,6 +51,19 @@ public class BlobApiIT {
         assertTrue(fileApi.get("0603c92a523346d3b3f9febd2f46f520.png").isPresent());
     }
 
+    @Test
+    public void testFileDelete() {
+        Entity entity = entitiesInitializer.createEntity("File");
+        entity.putProperty("publicUrl", "0603c92a523346d3b3f9febd2f46f520.png");
+        try {
+            fileApi.put(entity, ByteStreams.toByteArray(res.getInputStream()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(fileApi.delete(entity));
+    }
+
     @Test(expected = RuntimeException.class)
     public void noSuchEntity() {
         entitiesInitializer.createEntity("File2");
@@ -80,6 +93,11 @@ public class BlobApiIT {
         blobStorageApi.get("lolololololol");
     }
 
+    @Test(expected = RuntimeException.class)
+    public void checkNotFundExceptionByOID() {
+        blobStorageApi.get(1L);
+    }
+
     @Test
     public void deleteFalse() {
         assertFalse(blobStorageApi.delete("ololololo"));
@@ -89,6 +107,17 @@ public class BlobApiIT {
     public void deleteTrue() throws Exception {
         blobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
         assertTrue(blobStorageApi.delete(res.getFilename()));
+    }
+
+    @Test
+    public void deleteFalseByID() {
+        assertFalse(blobStorageApi.delete(1L));
+    }
+
+    @Test
+    public void deleteTrueByID() throws Exception {
+        BlobEntity put = blobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
+        assertTrue(blobStorageApi.delete(put.getOid()));
     }
 
 }

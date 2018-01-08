@@ -77,4 +77,24 @@ public class BasicEntityDao implements EntitiesDao {
         List<Entity> allByKey = entitiesStorage.getAllByKey(key);
         return allByKey.stream().map(entity -> entityPreAndPostProcessor.postPut(entity)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Long> getReferenceIds(String key, Entity entity) {
+        if (!entity.getProperties().containsKey(key)) {
+            throw new RuntimeException(String.format("No such field in entity: %s -> %s", key, entity.getKey()));
+        }
+        if (entity.getProperties().get(key).getRef().isEmpty()) {
+            throw new RuntimeException(String.format("No reference field: %s -> %s", key, entity.getKey()));
+        }
+        return entity.getPropertyList(key).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Entity> getReferenceEntities(String key, Entity entity) {
+        List<Long> referenceIds = getReferenceIds(key, entity);
+        return referenceIds.stream().map(id -> entitiesStorage.getByKey(key, id)).
+                filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+    }
 }

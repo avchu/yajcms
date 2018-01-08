@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.yajcms.core.YajCMSFiled;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -49,12 +50,11 @@ public abstract class EntitiesBase {
         return getPropertyLong(property, Optional.empty());
     }
 
-    public List getPropertyList(String property, Optional<List> defaultValue) {
-        return (List) Optional.ofNullable(properties.get(property).getValue()).orElse(defaultValue.orElse(List.empty()));
+    public List<Long> getPropertyList(String property, Optional<List> defaultValue) {
+        return (List<Long>) Optional.ofNullable(properties.get(property).getValue()).orElse(defaultValue.orElse(List.empty()));
     }
 
-    public List getPropertyList(String property) {
+    public List<Long> getPropertyList(String property) {
         return getPropertyList(property, Optional.empty());
     }
-
 }

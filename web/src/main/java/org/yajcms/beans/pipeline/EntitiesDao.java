@@ -21,4 +21,8 @@ public interface EntitiesDao {
     List<Entity> getByQuery(String query, String key, Optional<Integer> limit);
 
     List<Entity> getAllByKey(String key);
+
+    List<Long> getReferenceIds(String key, Entity entity);
+
+    List<Entity> getReferenceEntities(String key, Entity entity);
 }

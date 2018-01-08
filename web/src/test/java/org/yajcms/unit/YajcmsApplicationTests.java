@@ -1,9 +1,9 @@
 package org.yajcms.unit;
 
+import com.github.avchu.json.JSONObject;
 import com.google.common.testing.FakeTicker;
 import io.vavr.collection.List;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -139,7 +139,7 @@ public class YajcmsApplicationTests {
     @Test
     public void testGetList() {
         entity.putProperty("list", List.of(1L));
-        assertEquals(1L, entity.getPropertyList("list").last());
+        assertEquals(1L, entity.getPropertyList("list").last().longValue());
     }
 
     @Test

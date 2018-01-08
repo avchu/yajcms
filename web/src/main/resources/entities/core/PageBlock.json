@@ -1,0 +1,13 @@
+{
+  "cache": true,
+  "entity": {
+    "name": "Блоки страниц",
+    "fields": [
+      {
+        "id": "id",
+        "name": "Id",
+        "type": "Long"
+      }
+    ]
+  }
+}

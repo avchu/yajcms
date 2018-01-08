@@ -17,6 +17,8 @@ import org.yajcms.beans.entities.blobs.BlobStorageApi;
 import org.yajcms.beans.entities.blobs.PostgresBlobStorageApi;
 import org.yajcms.beans.pipeline.MongoDBQueryProcessorImpl;
 import org.yajcms.beans.pipeline.QueryLanguageProcessor;
+import org.yajcms.beans.template.FreeMarkerTemplateImpl;
+import org.yajcms.beans.template.TemplateEngine;
 
 @Configuration
 public class BeansConfig {
@@ -63,5 +65,10 @@ public class BeansConfig {
     @Bean
     protected QueryLanguageProcessor queryLanguageProcessor() {
         return new MongoDBQueryProcessorImpl();
+    }
+
+    @Bean
+    protected TemplateEngine templateEngine() {
+        return new FreeMarkerTemplateImpl();
     }
 }

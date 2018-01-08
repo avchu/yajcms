@@ -1,0 +1,24 @@
+{
+  "cache": true,
+  "entity": {
+    "name": "Страницы",
+    "fields": [
+      {
+        "id": "id",
+        "name": "Id",
+        "type": "Long"
+      },
+      {
+        "id": "template",
+        "name": "Template",
+        "type": "Long"
+      },
+      {
+        "id": "blocks",
+        "name": "Page Blocks",
+        "type": "List",
+        "ref": "PageBlock"
+      }
+    ]
+  }
+}

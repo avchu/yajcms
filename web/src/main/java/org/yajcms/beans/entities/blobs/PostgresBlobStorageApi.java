@@ -60,4 +60,13 @@ public class PostgresBlobStorageApi implements BlobStorageApi {
         blobRepository.save(blobEntity);
         return blobEntity;
     }
+
+    @Override
+    public BlobEntity update(BlobEntity blobEntity, byte[] source) throws Exception {
+        blobEntity.setContentHash(DigestUtils.md5Hex(source));
+        blobEntity.setSource(source);
+        log.debug("blob update: {}", blobEntity.toString());
+        blobRepository.save(blobEntity);
+        return blobEntity;
+    }
 }

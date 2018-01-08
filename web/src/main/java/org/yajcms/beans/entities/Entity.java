@@ -1,11 +1,11 @@
 package org.yajcms.beans.entities;
 
+import com.github.avchu.json.JSONArray;
+import com.github.avchu.json.JSONObject;
 import io.vavr.control.Option;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.yajcms.core.YajCMSFiled;
 
 import java.util.Optional;
@@ -33,22 +33,28 @@ public class Entity extends EntitiesBase {
     }
 
     public Entity(Optional<JSONObject> jsonObjects, String keyName) {
+
         domain = Optional.empty();
         id = Optional.empty();
-        cache = jsonObjects.orElse(new JSONObject().put("cache", false)).getBoolean("cache");
+        cache = jsonObjects.orElse(new JSONObject()).optBoolean("cache");
+
         name = jsonObjects.orElse(
                 new JSONObject().put("entity", new JSONObject().put("name", keyName))
         ).getJSONObject("entity").getString("name");
+
         key = keyName;
+
         JSONArray jsonArray = jsonObjects.orElse(new JSONObject()
                 .put("entity", new JSONObject().put("fields", new JSONArray()))
         ).getJSONObject("entity").getJSONArray("fields");
+
         for (int i = 0; i < jsonArray.length(); i++) {
             properties.put(jsonArray.getJSONObject(i).getString("id"),
                     YajCMSFiled.builder()
                             .id(jsonArray.getJSONObject(i).getString("id"))
                             .name(jsonArray.getJSONObject(i).getString("name"))
                             .type(jsonArray.getJSONObject(i).getString("type"))
+                            .type(jsonArray.getJSONObject(i).optString("ref").orElse(""))
                             .build()
             );
         }
@@ -64,5 +70,6 @@ public class Entity extends EntitiesBase {
     public void incrementValue(String key) {
         putProperty(key, this.getPropertyLong(key, Optional.of(0L)) + 1L);
     }
+
 
 }

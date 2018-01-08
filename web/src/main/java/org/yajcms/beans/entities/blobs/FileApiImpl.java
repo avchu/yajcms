@@ -1,10 +1,10 @@
 package org.yajcms.beans.entities.blobs;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.yajcms.beans.entities.Entity;
 import org.yajcms.beans.pipeline.EntitiesDao;
 import org.yajcms.db.entities.BlobEntity;
@@ -14,11 +14,9 @@ import java.util.Optional;
 @Slf4j
 public class FileApiImpl implements FileApi {
 
+    @Setter
+    @Getter
     private String keyName;
-
-    public void setKeyName(String keyName) {
-        this.keyName = keyName;
-    }
 
     private String filePathUrl;
 
@@ -27,14 +25,14 @@ public class FileApiImpl implements FileApi {
         this.filePathUrl = filePathUrl;
     }
 
-    private BlobStorageApi blobStorageApi;
+    protected BlobStorageApi blobStorageApi;
 
     @Autowired
     public void setBlobStorageApi(BlobStorageApi blobStorageApi) {
         this.blobStorageApi = blobStorageApi;
     }
 
-    private EntitiesDao entitiesDao;
+    protected EntitiesDao entitiesDao;
 
     @Autowired
     public void setEntitiesDao(EntitiesDao entitiesDao) {
@@ -51,9 +49,10 @@ public class FileApiImpl implements FileApi {
 
     @Override
     public Entity put(Entity entity, byte[] source) throws Exception {
+        entitiesDao.putEntity(entity); // To call callbacks
         BlobEntity blobFile = blobStorageApi.put(entity.getPropertyString("publicUrl"), source);
         entity.putProperty("blobId", blobFile.getOid());
-        entitiesDao.putEntity(entity);
+        entitiesDao.putEntity(entity); // Update entity
         return entity;
     }
 
@@ -66,6 +65,13 @@ public class FileApiImpl implements FileApi {
             return Optional.empty();
         }
         BlobEntity source = blobStorageApi.get(oneByQuery.get().getPropertyLong("blobId"));
+        return Optional.of(source);
+    }
+
+    @Override
+    public Optional<BlobEntity> get(Entity entity) {
+        log.debug("Trying get by entity {}", entity);
+        BlobEntity source = blobStorageApi.get(entity.getPropertyLong("blobId"));
         return Optional.of(source);
     }
 }

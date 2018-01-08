@@ -1,9 +1,9 @@
 package org.yajcms.integration;
 
+import com.github.avchu.json.JSONObject;
 import io.vavr.collection.List;
 import lombok.extern.java.Log;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -12,4 +12,5 @@ public class YajCMSFiled {
     private String name;
     private Object value;
     private String type;
+    private String ref;
 }

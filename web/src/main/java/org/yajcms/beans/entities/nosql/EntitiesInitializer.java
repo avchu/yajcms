@@ -1,5 +1,6 @@
 package org.yajcms.beans.entities.nosql;
 
+import com.github.avchu.json.JSONObject;
 import io.vavr.API;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
@@ -7,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;

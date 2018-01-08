@@ -11,4 +11,7 @@ public interface FileApi {
     Entity put(Entity entity, byte[] source) throws Exception;
 
     Optional<BlobEntity> get(String publicUrl);
+
+    Optional<BlobEntity> get(Entity entity);
+
 }

@@ -69,7 +69,7 @@ public class EntitiesStorageMongoDBImpl implements EntitiesStorage {
 
     @Override
     public Long countByQuery(Object query, String key) {
-        return mongoOperations.count((Query) query, Entity.class, key);
+        return mongoOperations.count((Query) query, Entity.class, tableName(Optional.empty(), key));
     }
 
     @Override

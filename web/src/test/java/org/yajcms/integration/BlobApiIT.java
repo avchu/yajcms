@@ -82,10 +82,10 @@ public class BlobApiIT {
             e.printStackTrace();
         }
         assertNotEquals(put.getOid(), null);
-        BlobEntity blobEntity = blobStorageApi.get(res.getFilename());
+        BlobEntity blobEntity = blobStorageApi.get(put.getOid());
         assertNotEquals(0, blobEntity.getSource().length);
 
-        blobStorageApi.delete(res.getFilename());
+        blobStorageApi.delete(put.getOid());
     }
 
     @Test(expected = RuntimeException.class)
@@ -96,17 +96,6 @@ public class BlobApiIT {
     @Test(expected = RuntimeException.class)
     public void checkNotFundExceptionByOID() {
         blobStorageApi.get(1L);
-    }
-
-    @Test
-    public void deleteFalse() {
-        assertFalse(blobStorageApi.delete("ololololo"));
-    }
-
-    @Test
-    public void deleteTrue() throws Exception {
-        blobStorageApi.put(res.getFilename(), ByteStreams.toByteArray(res.getInputStream()));
-        assertTrue(blobStorageApi.delete(res.getFilename()));
     }
 
     @Test

@@ -7,8 +7,6 @@ public interface BlobStorageApi {
 
     BlobEntity get(Long id);
 
-    Boolean delete(String path);
-
     Boolean delete(long id);
 
     BlobEntity put(String path, byte[] source) throws Exception;

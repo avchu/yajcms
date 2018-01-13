@@ -13,6 +13,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
 import org.yajcms.beans.entities.Entity;
+import org.yajcms.db.utils.exceptions.NoSuchEntityException;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -58,7 +59,7 @@ public class EntitiesInitializer {
 
     public Entity createEntity(String key) {
         if(!entitiesProto.containsKey(key)) {
-            throw new RuntimeException("No such entity in classpath");
+            throw new NoSuchEntityException(key);
         }
         return new Entity(entitiesProto.get(key), key);
     }

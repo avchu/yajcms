@@ -46,7 +46,7 @@ public class MainPatternsController {
             IOUtils.copy(new ByteArrayInputStream(blobEntity.get().getSource()), httpServletResponse.getOutputStream());
             httpServletResponse.flushBuffer();
         } catch (IOException ex) {
-            throw new RuntimeException("IOError writing file to output stream");
+            ex.printStackTrace();
         }
     }
 

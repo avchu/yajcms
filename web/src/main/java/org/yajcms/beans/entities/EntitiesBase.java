@@ -5,6 +5,7 @@ import io.vavr.collection.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.yajcms.core.YajCMSFiled;
+import org.yajcms.db.utils.exceptions.YajCMSFieldNotFoundException;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public abstract class EntitiesBase {
 
     public void putProperty(String key, Object property) {
         if (!properties.containsKey(key)) {
-            throw new RuntimeException("No such field in entity: " + key);
+            throw new YajCMSFieldNotFoundException(key, this.toString());
         }
 
         properties.put(key, properties.get(key).toBuilder().value(property).build());

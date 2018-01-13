@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.yajcms.db.utils.exceptions.NullQueryException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,7 @@ public class MongoDBQueryProcessorImpl implements QueryLanguageProcessor {
     public Object makeQuery(String query) {
         Query mongoQuery = new Query();
         if (query == null || query.isEmpty()) {
-            throw new RuntimeException("Query cannot be null or empty");
+            throw new NullQueryException();
         }
         log.debug("Parsing query: {}", query);
         List<String> tokens = Arrays.asList(query.split(":"));

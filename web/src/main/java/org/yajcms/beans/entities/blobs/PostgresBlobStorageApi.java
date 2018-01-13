@@ -5,6 +5,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.yajcms.db.entities.BlobEntity;
 import org.yajcms.db.repos.BlobRepository;
+import org.yajcms.db.utils.exceptions.BlobNotFoundException;
 
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class PostgresBlobStorageApi implements BlobStorageApi {
     public BlobEntity get(Long id) {
         BlobEntity byId = blobRepository.getByOid(id);
         if (byId == null) {
-            throw new RuntimeException();
+            throw new BlobNotFoundException(id);
         }
         return byId;
     }
@@ -31,7 +32,7 @@ public class PostgresBlobStorageApi implements BlobStorageApi {
     public BlobEntity get(String path) {
         BlobEntity byHash = blobRepository.getByHash(DigestUtils.md5Hex(path));
         if (byHash == null) {
-            throw new RuntimeException();
+            throw new BlobNotFoundException(path);
         }
         return byHash;
     }

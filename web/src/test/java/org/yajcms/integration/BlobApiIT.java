@@ -14,6 +14,7 @@ import org.yajcms.beans.entities.blobs.BlobStorageApi;
 import org.yajcms.beans.entities.blobs.FileApi;
 import org.yajcms.beans.entities.nosql.EntitiesInitializer;
 import org.yajcms.db.entities.BlobEntity;
+import org.yajcms.db.utils.exceptions.BlobNotFoundException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -52,6 +53,17 @@ public class BlobApiIT {
     }
 
     @Test
+    public void testFileApiGetByEntity() {
+        Entity entity = entitiesInitializer.createEntity("File");
+        entity.putProperty("publicUrl", "0603c92a523346d3b3f9febd2f46f520.png");
+        try {
+            fileApi.put(entity, ByteStreams.toByteArray(res.getInputStream()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertTrue(fileApi.get(entity).isPresent());
+    }
+    @Test
     public void testFileDelete() {
         Entity entity = entitiesInitializer.createEntity("File");
         entity.putProperty("publicUrl", "0603c92a523346d3b3f9febd2f46f520.png");
@@ -67,6 +79,11 @@ public class BlobApiIT {
     @Test(expected = RuntimeException.class)
     public void noSuchEntity() {
         entitiesInitializer.createEntity("File2");
+    }
+
+    @Test
+    public void testFileApiNotFound() {
+        assertFalse(fileApi.get("llll.png").isPresent());
     }
 
     @Test
@@ -88,12 +105,12 @@ public class BlobApiIT {
         blobStorageApi.delete(put.getOid());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = BlobNotFoundException.class)
     public void checkNotFundException() {
         blobStorageApi.get("lolololololol");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = BlobNotFoundException.class)
     public void checkNotFundExceptionByOID() {
         blobStorageApi.get(1L);
     }

@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -43,6 +45,12 @@ public class LoadInitialTemplate {
 
     @Test
     public void load() {
+        loadTemplates();
+        Optional<Entity> template = entitiesDao.getOneByQuery("filePath:/main/main_page.ftl", "Template");
+        assertTrue(template.isPresent());
+    }
+
+    private void loadTemplates() {
         File dir = new File("../front/templates/");
         System.out.println(dir.getAbsolutePath());
         File[] files = dir.listFiles();
@@ -52,12 +60,21 @@ public class LoadInitialTemplate {
             Entity template = entitiesInitializer.createEntity("Template");
             template.putProperty("filePath", file.getAbsolutePath().split("templates")[1]);
             try {
-                System.out.println(templateApi.put(template, IOUtils.toByteArray(file.toURI())));
+                templateApi.put(template, IOUtils.toByteArray(file.toURI()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
+
+    @Test
+    public void reLoad() {
+        loadTemplates();
+        Optional<Entity> template = entitiesDao.getOneByQuery("filePath:/main/main_page.ftl", "Template");
+        assertTrue(template.isPresent());
+        assertNotEquals(template.get().getPropertyLong("version").longValue(), 1L);
+    }
+
 
     private void listFiles(File[] files, List<File> fileList) {
         for (File file : files) {

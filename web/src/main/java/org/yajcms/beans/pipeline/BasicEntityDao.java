@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.yajcms.beans.entities.Entity;
 import org.yajcms.beans.entities.nosql.EntitiesStorage;
 import org.yajcms.beans.entities.nosql.EntityPreAndPostProcessor;
+import org.yajcms.db.utils.exceptions.YajCMSFieldNotFoundException;
+import org.yajcms.db.utils.exceptions.YajCMSReferenceFieldNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,10 +83,10 @@ public class BasicEntityDao implements EntitiesDao {
     @Override
     public List<Long> getReferenceIds(String key, Entity entity) {
         if (!entity.getProperties().containsKey(key)) {
-            throw new RuntimeException(String.format("No such field in entity: %s -> %s", key, entity.getKey()));
+            throw new YajCMSFieldNotFoundException(key, entity.getKey());
         }
         if (entity.getProperties().get(key).getRef().isEmpty()) {
-            throw new RuntimeException(String.format("No reference field: %s -> %s", key, entity.getKey()));
+            throw new YajCMSReferenceFieldNotFoundException(key, entity.getKey());
         }
         return entity.getPropertyList(key).collect(Collectors.toList());
     }

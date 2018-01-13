@@ -1,22 +1,12 @@
 {
-  "cache": false,
+  "cache": true,
   "entity": {
-    "name": "File",
+    "name": "Template",
     "fields": [
       {
         "id": "id",
         "name": "Id",
         "type": "Long"
-      },
-      {
-        "id": "version",
-        "name": "Версия",
-        "type": "Long"
-      },
-      {
-        "id": "publicUrl",
-        "name": "Public Url",
-        "type": "String"
       },
       {
         "id": "blobId",
@@ -27,6 +17,11 @@
         "id": "filePath",
         "name": "Path",
         "type": "String"
+      },
+      {
+        "id": "version",
+        "name": "Version",
+        "type": "Long"
       }
     ]
   }

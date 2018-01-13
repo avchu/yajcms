@@ -1,0 +1,49 @@
+{
+  "cache": true,
+  "entity": {
+    "name": "Тест",
+    "fields": [
+      {
+        "id": "boolean",
+        "name": "boolean",
+        "type": "boolean"
+      },
+      {
+        "id": "long",
+        "name": "long",
+        "type": "long"
+      },
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string"
+      },
+      {
+        "id": "list",
+        "name": "list",
+        "type": "list"
+      },
+      {
+        "id": "hash",
+        "name": "hash",
+        "type": "Long"
+      },
+      {
+        "id": "version",
+        "name": "version",
+        "type": "Long"
+      },
+      {
+        "id": "version",
+        "name": "version",
+        "type": "Long"
+      },
+      {
+        "id": "blocks",
+        "name": "Test Refs",
+        "type": "List",
+        "ref": "Test"
+      }
+    ]
+  }
+}

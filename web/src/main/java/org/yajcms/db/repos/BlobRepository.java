@@ -5,4 +5,6 @@ import org.yajcms.db.entities.BlobEntity;
 
 public interface BlobRepository extends CrudRepository<BlobEntity, Long> {
     BlobEntity getByHash(String path);
+
+    BlobEntity getByOid(Long oid);
 }

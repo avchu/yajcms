@@ -1,4 +1,4 @@
-package org.yajcms.core;
+package org.yajcms.beans.blocks;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

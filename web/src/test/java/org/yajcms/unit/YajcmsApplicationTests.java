@@ -1,19 +1,23 @@
 package org.yajcms.unit;
 
+import com.github.avchu.json.JSONObject;
 import com.google.common.testing.FakeTicker;
 import io.vavr.collection.List;
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.yajcms.beans.EntitiesInitializer;
-import org.yajcms.beans.EntitiesStorage;
-import org.yajcms.beans.EntityCache;
-import org.yajcms.core.Entity;
+import org.yajcms.beans.entities.nosql.EntitiesInitializer;
+import org.yajcms.beans.cache.EntityCache;
+import org.yajcms.beans.pipeline.EntitiesDao;
+import org.yajcms.beans.entities.Entity;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +35,7 @@ public class YajcmsApplicationTests {
     private EntityCache entityCache = new EntityCache();
 
     @Mock
-    private EntitiesStorage entitiesStorage;
+    private EntitiesDao entitiesDao;
 
     @Mock
     private EntitiesInitializer entitiesInitializer;
@@ -39,34 +43,42 @@ public class YajcmsApplicationTests {
     private Entity entity;
 
     @Before
-    public void setUp() {
-        entity = new Entity("Test");
+    public void setUp() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String testJson = IOUtils.toString(classLoader.getResource("Test.json").openStream(), Charset.forName("utf-8"));
+        entity = new Entity(Optional.of(new JSONObject(testJson)), "Test");
     }
 
     @Test
     public void checkCache() {
         FakeTicker fakeTicker = new FakeTicker();
-        entityCache.setEntitiesStorage(entitiesStorage);
+        entityCache.setEntitiesDao(entitiesDao);
         entityCache.setEntitiesInitializer(entitiesInitializer);
         entityCache.setCacheExpirationInSeconds(60);
         entityCache.setTicker(fakeTicker);
         entityCache.initCache();
 
 
-        Entity entity1 = new Entity("Test");
+        Entity entity1 = entity.toBuilder().build();
+        entity1.setProperties(new HashMap<>(entity.getProperties()));
+
         entity1.putProperty("hash", Long.valueOf(1L));
         entity1.setCache(true);
 
-        Entity entity2 = new Entity("Test");
-        entity2.putProperty("hash", Long.valueOf(2L));
+        Entity entity2 = entity.toBuilder().build();
+        entity2.setProperties(new HashMap<>(entity.getProperties()));
 
-        when(entitiesStorage.getAllByKey(any()))
+        entity2.putProperty("hash", Long.valueOf(2L));
+        entity2.setCache(true);
+
+
+        when(entitiesDao.getAllByKey(any()))
                 .thenReturn(Arrays.asList(entity1))
                 .thenReturn(Arrays.asList(entity2));
 
-        assertEquals(Long.valueOf(1L), entityCache.getAll("All").get(0).getPropertyLong("hash"));
+        assertEquals(Long.valueOf(1L), entityCache.getAll("Test").get(0).getPropertyLong("hash"));
         fakeTicker.advance(65, TimeUnit.SECONDS);
-        assertEquals(Long.valueOf(2L), entityCache.getAll("All").get(0).getPropertyLong("hash"));
+        assertEquals(Long.valueOf(2L), entityCache.getAll("Test").get(0).getPropertyLong("hash"));
     }
 
     @Test
@@ -127,12 +139,12 @@ public class YajcmsApplicationTests {
     @Test
     public void testGetList() {
         entity.putProperty("list", List.of(1L));
-        assertEquals(1L, entity.getPropertyList("list").last());
+        assertEquals(1L, entity.getPropertyList("list").last().longValue());
     }
 
     @Test
     public void testGetListNoValue() {
-        assertTrue(entity.getPropertyList("List").isEmpty());
+        assertTrue(entity.getPropertyList("list").isEmpty());
     }
 
     @Test

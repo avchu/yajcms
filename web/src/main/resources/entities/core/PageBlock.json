@@ -1,0 +1,13 @@
+{
+  "cache": true,
+  "entity": {
+    "name": "Page block",
+    "fields": [
+      {
+        "id": "id",
+        "name": "Id",
+        "type": "Long"
+      }
+    ]
+  }
+}

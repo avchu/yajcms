@@ -1,5 +1,6 @@
-package org.yajcms.beans;
+package org.yajcms.beans.entities.nosql;
 
+import com.github.avchu.json.JSONObject;
 import io.vavr.API;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
@@ -7,12 +8,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
-import org.yajcms.core.Entity;
+import org.yajcms.beans.entities.Entity;
+import org.yajcms.db.utils.exceptions.NoSuchEntityException;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -54,5 +55,12 @@ public class EntitiesInitializer {
     private void initEntities(String filename, InputStream json) throws IOException {
         entitiesProto = entitiesProto.put(filename.replace(".json", ""),
                 new JSONObject(IOUtils.toString(json, Charset.forName("utf-8"))));
+    }
+
+    public Entity createEntity(String key) {
+        if(!entitiesProto.containsKey(key)) {
+            throw new NoSuchEntityException(key);
+        }
+        return new Entity(entitiesProto.get(key), key);
     }
 }

@@ -11,13 +11,13 @@ import java.util.Arrays;
 @Entity
 public class BlobEntity {
     @Id
-    Long oid;
+    private Long oid;
     @Column
-    String path;
+    private String path;
     @Column
-    String hash;
+    private String hash;
     @Column
-    String contentHash;
+    private String contentHash;
     @Column
     private byte[] source;
 

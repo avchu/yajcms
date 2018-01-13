@@ -1,7 +1,7 @@
 {
   "cache": true,
   "entity": {
-    "name": "Блоки страниц",
+    "name": "Page block",
     "fields": [
       {
         "id": "id",

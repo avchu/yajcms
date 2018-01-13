@@ -1,7 +1,7 @@
 {
   "cache": true,
   "entity": {
-    "name": "Шаблоны",
+    "name": "Template",
     "fields": [
       {
         "id": "id",

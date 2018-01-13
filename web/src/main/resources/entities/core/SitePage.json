@@ -1,7 +1,7 @@
 {
   "cache": true,
   "entity": {
-    "name": "Страницы",
+    "name": "Site Pages",
     "fields": [
       {
         "id": "id",

@@ -1,7 +1,7 @@
 {
   "cache": false,
   "entity": {
-    "name": "Файл",
+    "name": "File",
     "fields": [
       {
         "id": "id",

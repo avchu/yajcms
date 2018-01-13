@@ -70,7 +70,7 @@ public class BlobApiIT {
     }
 
     @Test
-    public void checkCache() {
+    public void checkPut() {
 
         BlobEntity put = null;
         try {

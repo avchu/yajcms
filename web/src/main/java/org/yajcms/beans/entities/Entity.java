@@ -54,7 +54,7 @@ public class Entity extends EntitiesBase {
                             .id(jsonArray.getJSONObject(i).getString("id"))
                             .name(jsonArray.getJSONObject(i).getString("name"))
                             .type(jsonArray.getJSONObject(i).getString("type"))
-                            .type(jsonArray.getJSONObject(i).optString("ref").orElse(""))
+                            .ref(jsonArray.getJSONObject(i).optString("ref").orElse(""))
                             .build()
             );
         }

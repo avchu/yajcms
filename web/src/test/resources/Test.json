@@ -32,6 +32,17 @@
         "id": "version",
         "name": "version",
         "type": "Long"
+      },
+      {
+        "id": "version",
+        "name": "version",
+        "type": "Long"
+      },
+      {
+        "id": "blocks",
+        "name": "Test Refs",
+        "type": "List",
+        "ref": "Test"
       }
     ]
   }

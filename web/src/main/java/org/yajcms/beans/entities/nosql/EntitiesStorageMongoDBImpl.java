@@ -63,7 +63,7 @@ public class EntitiesStorageMongoDBImpl implements EntitiesStorage {
     @Override
     public Optional<Entity> getByKey(String key, Object id) {
         return Optional.ofNullable(mongoOperations.findOne(
-                new Query(Criteria.where("id").is(id)), Entity.class, tableName(Optional.empty(), key))
+                new Query(Criteria.where("_id.value").is(id)), Entity.class, tableName(Optional.empty(), key))
         );
     }
 

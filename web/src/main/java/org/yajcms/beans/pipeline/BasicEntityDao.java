@@ -92,7 +92,8 @@ public class BasicEntityDao implements EntitiesDao {
     @Override
     public List<Entity> getReferenceEntities(String key, Entity entity) {
         List<Long> referenceIds = getReferenceIds(key, entity);
-        return referenceIds.stream().map(id -> entitiesStorage.getByKey(key, id)).
+        String refKey = entity.getProperties().get(key).getRef();
+        return referenceIds.stream().map(id -> entitiesStorage.getByKey(refKey, id)).
                 filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());

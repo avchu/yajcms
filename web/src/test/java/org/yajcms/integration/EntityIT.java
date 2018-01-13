@@ -16,6 +16,7 @@ import org.yajcms.beans.pipeline.EntitiesDao;
 import org.yajcms.beans.entities.Entity;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -39,6 +40,7 @@ public class EntityIT {
     EntityCache entityCache;
 
     private Entity toPut;
+    private Entity toPut2;
 
     @Before
     public void setUp() throws Exception {
@@ -49,6 +51,12 @@ public class EntityIT {
         toPut.putProperty("long", 2L);
         toPut.putProperty("boolean", true);
         toPut.putProperty("list", List.of(3L, 4L));
+
+        toPut2 = new Entity(Optional.of(new JSONObject(testJson)), "Test");
+        toPut2.putProperty("string", "lo");
+        toPut2.putProperty("long", 2L);
+        toPut2.putProperty("boolean", true);
+        toPut2.putProperty("list", List.of(3L, 4L));
     }
 
     @Test
@@ -100,5 +108,21 @@ public class EntityIT {
     public void getByQuery() {
         entitiesDao.putEntity(toPut);
         assertNotEquals(entitiesDao.getByQuery("string:lo", "Test").size(), 0);
+    }
+
+    @Test
+    public void checkReferenceId() {
+        entitiesDao.putEntity(toPut2);
+        toPut.putProperty("blocks", List.of(toPut2.getId().get()));
+        entitiesDao.putEntity(toPut);
+        assertNotEquals(entitiesDao.getReferenceIds("blocks", toPut).size(), 0);
+    }
+
+    @Test
+    public void checkReferenceEntities() {
+        entitiesDao.putEntity(toPut2);
+        toPut.putProperty("blocks", List.of(toPut2.getId().get()));
+        entitiesDao.putEntity(toPut);
+        assertTrue(entitiesDao.getReferenceEntities("blocks", toPut).get(0).getId().equals(toPut2.getId()));
     }
 }

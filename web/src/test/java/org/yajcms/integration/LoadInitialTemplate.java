@@ -2,7 +2,6 @@ package org.yajcms.integration;
 
 import lombok.extern.java.Log;
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

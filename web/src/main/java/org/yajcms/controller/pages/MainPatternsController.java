@@ -22,9 +22,9 @@ import java.util.Optional;
 @Slf4j
 public class MainPatternsController {
 
-    PageController pageController;
+    private PageController pageController;
 
-    FileApi fileApi;
+    private FileApi fileApi;
 
     @Autowired
     public void setFileApi(FileApi fileApi) {

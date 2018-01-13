@@ -11,7 +11,6 @@ import org.yajcms.beans.entities.blobs.TemplateApiImpl;
 import org.yajcms.db.entities.BlobEntity;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.HashMap;

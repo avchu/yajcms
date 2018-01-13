@@ -5,10 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.yajcms.beans.generators.EntityIdGenerator;
 import org.yajcms.beans.entities.Entity;
+import org.yajcms.beans.generators.EntityIdGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,16 +15,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class EntitiesStorageMongoDBImpl implements EntitiesStorage {
 
-    Integer defaultLimit;
+    private Integer defaultLimit;
+
+    protected MongoOperations mongoOperations;
+
+    protected EntityIdGenerator entityIdGenerator;
 
     @Value("${org.yajcms.entities.query.limit:100}")
     public void setDefaultLimit(Integer defaultLimit) {
         this.defaultLimit = defaultLimit;
     }
-
-    protected MongoOperations mongoOperations;
-
-    protected EntityIdGenerator entityIdGenerator;
 
     @Autowired
     public void setEntityIdGenerator(EntityIdGenerator entityIdGenerator) {

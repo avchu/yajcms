@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j
 public class MongoDBQueryProcessorImpl implements QueryLanguageProcessor {
 
-    String propertiesPath;
+    private String propertiesPath;
 
     @Value("${yajcms.entity.query.property.tag:properties}")
     public void setPropertiesPath(String propertiesPath) {

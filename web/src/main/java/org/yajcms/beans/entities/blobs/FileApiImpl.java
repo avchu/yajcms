@@ -20,19 +20,20 @@ public class FileApiImpl implements FileApi {
 
     private String filePathUrl;
 
+    protected BlobStorageApi blobStorageApi;
+
+    protected EntitiesDao entitiesDao;
+
     @Value("${org.yajcms.blob.public.path.url:/_file/}")
     public void setFilePathUrl(String filePathUrl) {
         this.filePathUrl = filePathUrl;
     }
-
-    protected BlobStorageApi blobStorageApi;
 
     @Autowired
     public void setBlobStorageApi(BlobStorageApi blobStorageApi) {
         this.blobStorageApi = blobStorageApi;
     }
 
-    protected EntitiesDao entitiesDao;
 
     @Autowired
     public void setEntitiesDao(EntitiesDao entitiesDao) {

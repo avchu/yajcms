@@ -10,13 +10,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.yajcms.beans.entities.nosql.EntitiesInitializer;
 import org.yajcms.beans.cache.EntityCache;
-import org.yajcms.beans.pipeline.EntitiesDao;
 import org.yajcms.beans.entities.Entity;
+import org.yajcms.beans.entities.nosql.EntitiesInitializer;
+import org.yajcms.beans.pipeline.EntitiesDao;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;

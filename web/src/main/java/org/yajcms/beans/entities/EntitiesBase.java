@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.yajcms.core.YajCMSFiled;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
